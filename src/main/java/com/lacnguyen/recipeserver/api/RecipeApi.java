@@ -3,14 +3,15 @@ package com.lacnguyen.recipeserver.api;
 import com.lacnguyen.recipeserver.entity.RecipeEntity;
 import com.lacnguyen.recipeserver.repository.RecipeRepository;
 import com.lacnguyen.recipeserver.service.IRecipeService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.lang.Long;
 import java.util.List;
-import java.util.Optional;
 
+@Api(value = "Recipe APIs")
 @CrossOrigin
 @RestController
 @RequestMapping("/api/recipe")
