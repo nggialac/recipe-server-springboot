@@ -23,7 +23,7 @@ public class RecipeApi {
 
     @GetMapping
     public Collection<RecipeEntity> findListRecipe() {
-        return recipeRepository.findAll();
+        return iRecipeService.findListRecipe();
     }
 
     @GetMapping("/{id}")

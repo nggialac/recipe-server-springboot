@@ -6,6 +6,7 @@ import com.lacnguyen.recipeserver.service.IRecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Optional;
 
 @Service
@@ -18,4 +19,11 @@ public class RecipeService implements IRecipeService {
     public Optional<RecipeEntity> findById(Long id) {
         return recipeRepository.findById(id);
     }
+
+    @Override
+    public Collection<RecipeEntity> findListRecipe() {
+        return recipeRepository.findAll();
+    }
+
+
 }

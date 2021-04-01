@@ -1,5 +1,6 @@
 package com.lacnguyen.recipeserver.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,7 @@ public class RoleEntity {
 //    @ManyToMany(mappedBy = "roles")
 //    private Collection<UserEntity> users = new ArrayList<>();
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "role")
     private Collection<UserEntity> users = new ArrayList<>();
 

@@ -1,5 +1,7 @@
 package com.lacnguyen.recipeserver.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +29,7 @@ public class RecipeStepEntity {
     @Column(name = "stepdescription")
     private String stepDescription;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "recipe_id")
     private RecipeEntity recipe;

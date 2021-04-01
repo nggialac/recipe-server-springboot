@@ -1,6 +1,7 @@
 package com.lacnguyen.recipeserver.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,6 +44,7 @@ public class UserEntity {
 //            inverseJoinColumns = @JoinColumn(name = "role_id"))
 //    private Collection<RoleEntity> roles = new ArrayList<>();
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "role_id")
     private RoleEntity role;

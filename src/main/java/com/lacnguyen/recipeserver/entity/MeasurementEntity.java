@@ -1,5 +1,7 @@
 package com.lacnguyen.recipeserver.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +28,7 @@ public class MeasurementEntity {
     @Column(name = "measurementname")
     private String measurementName;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "measurement")
-    private Collection<QuantityEntity> quantities = new ArrayList<>();
+    private Collection<IngredientEntity> ingredients = new ArrayList<>();
 }

@@ -1,5 +1,9 @@
 package com.lacnguyen.recipeserver.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,14 +28,6 @@ public class RecipeEntity {
     @Column(name = "recipeid")
     private Long recipeId;
 
-    @ManyToOne
-    @JoinColumn(name = "course_id")
-    private CourseEntity course;
-
-    @ManyToOne
-    @JoinColumn(name = "food_category_id")
-    private FoodCategoryEntity foodCategory;
-
     @Column(name = "recipename")
     private String recipeName;
 
@@ -44,6 +40,26 @@ public class RecipeEntity {
     @Column(name = "cooktime")
     private int cookTime;
 
-    @OneToMany(mappedBy = "recipe")
-    private Collection<RecipeStepEntity> recipeSteps = new ArrayList<>();
+    @JsonManagedReference
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipe")
+    private Collection<RecipeStepEntity> recipe_steps = new ArrayList<>();
+
+    @JsonManagedReference
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipe")
+    private Collection<CourseEntity> courses = new ArrayList<>();
+
+    @JsonManagedReference
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipe")
+    private Collection<IngredientEntity> ingredients = new ArrayList<>();
+
+//    @JsonManagedReference
+//    @OneToOne(mappedBy = "recipe")
+//    private QuantityEntity quantity;
+
+    @JsonBackReference
+    @ManyToMany
+    @JoinTable(name = "recipe_category",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "food_category_id"))
+    private List<FoodCategoryEntity> foodCategories = new ArrayList<>();
 }

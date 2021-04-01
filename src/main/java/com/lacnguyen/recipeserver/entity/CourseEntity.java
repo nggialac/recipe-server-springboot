@@ -1,6 +1,8 @@
 package com.lacnguyen.recipeserver.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,10 +11,7 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
@@ -38,6 +37,8 @@ public class CourseEntity {
     @Column(name = "createdate")
     private Date createDate;
 
-    @OneToMany(mappedBy = "course")
-    private Collection<RecipeEntity> recipes = new ArrayList<>();
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "recipe_id")
+    private RecipeEntity recipe;
 }
