@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.lang.Long;
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin
@@ -26,14 +27,14 @@ public class RecipeApi {
         return iRecipeService.findListRecipe();
     }
 
-    @GetMapping("/{id}")
-    public Optional<RecipeEntity> findRecipeById(@PathVariable("id") Long id) {
-        return iRecipeService.findById(id);
+    @GetMapping("/test")
+    public List<Object> findRecipeById() {
+        return recipeRepository.findFoodCategoryByRecipeId();
     }
 
-    @PostMapping
-    public RecipeEntity createRecipeEntity(@RequestBody RecipeEntity objRecipe) {
-        return recipeRepository.save(objRecipe);
+    @PostMapping(consumes = "application/json", produces = "application/json")
+    public RecipeEntity newRecipe(@RequestBody RecipeEntity newRecipe) {
+        return recipeRepository.save(newRecipe);
     }
 
     @DeleteMapping("/{id}")

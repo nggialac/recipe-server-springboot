@@ -1,7 +1,9 @@
 package com.lacnguyen.recipeserver.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +30,8 @@ public class FoodCategoryEntity {
     @Column(name = "foodcategoryname")
     private String foodCategoryName;
 
-    @JsonManagedReference
+
+    @JsonIgnore
     @ManyToMany(mappedBy = "foodCategories")
     private List<RecipeEntity> recipe = new ArrayList<>();
 }

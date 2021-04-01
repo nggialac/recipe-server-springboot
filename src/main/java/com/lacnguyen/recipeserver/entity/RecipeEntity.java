@@ -1,9 +1,6 @@
 package com.lacnguyen.recipeserver.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,23 +37,19 @@ public class RecipeEntity {
     @Column(name = "cooktime")
     private int cookTime;
 
-    @JsonManagedReference
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipe")
     private Collection<RecipeStepEntity> recipe_steps = new ArrayList<>();
 
-    @JsonManagedReference
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipe")
     private Collection<CourseEntity> courses = new ArrayList<>();
 
-    @JsonManagedReference
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipe")
     private Collection<IngredientEntity> ingredients = new ArrayList<>();
 
-//    @JsonManagedReference
-//    @OneToOne(mappedBy = "recipe")
-//    private QuantityEntity quantity;
-
-    @JsonBackReference
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "recipe_category",
             joinColumns = @JoinColumn(name = "recipe_id"),

@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import javax.persistence.*;
 
@@ -34,7 +33,7 @@ public class RoleEntity {
 //    @ManyToMany(mappedBy = "roles")
 //    private Collection<UserEntity> users = new ArrayList<>();
 
-    @JsonManagedReference
+
     @OneToMany(mappedBy = "role")
     private Collection<UserEntity> users = new ArrayList<>();
 
