@@ -8,6 +8,4 @@ import java.util.List;
 
 @Repository
 public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
-    @Override
-    List<RecipeEntity> findAll();
 }

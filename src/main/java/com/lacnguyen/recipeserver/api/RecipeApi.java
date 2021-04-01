@@ -2,26 +2,43 @@ package com.lacnguyen.recipeserver.api;
 
 import com.lacnguyen.recipeserver.entity.RecipeEntity;
 import com.lacnguyen.recipeserver.repository.RecipeRepository;
+import com.lacnguyen.recipeserver.service.IRecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.List;
+import java.lang.Long;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/recipe")
 public class RecipeApi {
 
     @Autowired
     private RecipeRepository recipeRepository;
 
-    @GetMapping("/recipe")
-    public Collection<RecipeEntity> findBooks() {
+    @Autowired
+    private IRecipeService iRecipeService;
+
+    @GetMapping
+    public Collection<RecipeEntity> findListRecipe() {
         return recipeRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Optional<RecipeEntity> findRecipeById(@PathVariable("id") Long id) {
+        return iRecipeService.findById(id);
+    }
+
+    @PostMapping
+    public RecipeEntity createRecipeEntity(@RequestBody RecipeEntity objRecipe) {
+        return recipeRepository.save(objRecipe);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteRecipeEntity(@PathVariable("id") Long id) {
+        recipeRepository.deleteById(id);
     }
 
 }

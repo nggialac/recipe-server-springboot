@@ -32,7 +32,7 @@ public class CourseEntity {
 
     @CreatedBy
     @Column(name = "createby")
-    private Date createBy;
+    private String createBy;
 
     @CreatedDate
     @Column(name = "createdate")
