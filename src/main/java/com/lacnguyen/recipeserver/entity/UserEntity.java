@@ -39,7 +39,7 @@ public class UserEntity {
     private String fullName;
 
     @Column
-    private Integer status;
+    private Boolean status;
 
 //    @ManyToMany
 //    @JoinTable(name = "user_role",
@@ -48,8 +48,11 @@ public class UserEntity {
 //    private Collection<RoleEntity> roles = new ArrayList<>();
 
 
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private RoleEntity role;
+//    @JsonIgnore
+//    @ManyToOne
+//    @JoinColumn(name = "role_id")
+//    private RoleEntity role;
+
+    @Column
+    private String role;
 }
