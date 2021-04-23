@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -38,14 +37,17 @@ public class RecipeEntity {
     private int cookTime;
 
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipe")
     private Collection<RecipeStepEntity> recipe_steps = new ArrayList<>();
 
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipe")
     private Collection<CourseEntity> courses = new ArrayList<>();
 
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipe")
     private Collection<IngredientEntity> ingredients = new ArrayList<>();
 

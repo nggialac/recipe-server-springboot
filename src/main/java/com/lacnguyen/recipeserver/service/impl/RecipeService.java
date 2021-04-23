@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,8 +17,8 @@ public class RecipeService implements IRecipeService {
     RecipeRepository recipeRepository;
 
     @Override
-    public Optional<RecipeEntity> findById(Long id) {
-        return recipeRepository.findById(id);
+    public List<RecipeEntity> findByRecipeId(Long id) {
+        return recipeRepository.findByRecipeId(id);
     }
 
     @Override

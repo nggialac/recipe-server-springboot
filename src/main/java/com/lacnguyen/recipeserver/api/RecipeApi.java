@@ -28,9 +28,9 @@ public class RecipeApi {
         return iRecipeService.findListRecipe();
     }
 
-    @GetMapping("/test")
-    public List<Object> findRecipeById() {
-        return recipeRepository.findFoodCategoryByRecipeId();
+    @GetMapping("/{id}")
+    public List<RecipeEntity> findRecipeById(@PathVariable("id") Long id) {
+        return recipeRepository.findByRecipeId(id);
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")

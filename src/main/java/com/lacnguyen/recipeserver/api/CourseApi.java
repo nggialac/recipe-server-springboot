@@ -24,12 +24,12 @@ public class CourseApi {
     private ICourseService iCourseService;
 
     @GetMapping
-    public Collection<CourseEntity> findListRecipe() {
+    public Collection<CourseEntity> findListCourse() {
         return courseRepository.findAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<CourseEntity> findRecipeById(@PathVariable("id") Long id) {
+    public Optional<CourseEntity> findCourseById(@PathVariable("id") Long id) {
         return iCourseService.findById(id);
     }
 

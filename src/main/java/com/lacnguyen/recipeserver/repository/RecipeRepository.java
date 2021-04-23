@@ -1,5 +1,6 @@
 package com.lacnguyen.recipeserver.repository;
 
+import com.lacnguyen.recipeserver.entity.FoodCategoryEntity;
 import com.lacnguyen.recipeserver.entity.RecipeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,5 +19,7 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
             "    ON r.recipeid = rc.recipe_id \n" +
             "INNER JOIN food_category as fc\n" +
             "    ON rc.food_category_id = fc.foodcategoryid \n", nativeQuery = true)
-    List<Object> findFoodCategoryByRecipeId();
+    List<FoodCategoryEntity> findFoodCategoryByRecipeId(Long id);
+
+    List<RecipeEntity> findByRecipeId(Long id);
 }
