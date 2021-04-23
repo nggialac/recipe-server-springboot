@@ -12,7 +12,7 @@ import java.lang.Long;
 import java.util.List;
 
 @Api(value = "Recipe APIs")
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/recipe")
 public class RecipeApi {
