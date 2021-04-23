@@ -5,11 +5,14 @@ import com.lacnguyen.recipeserver.repository.RecipeRepository;
 import com.lacnguyen.recipeserver.service.IRecipeService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.lang.Long;
 import java.util.List;
+import java.util.Optional;
 
 @Api(value = "Recipe APIs")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -38,9 +41,35 @@ public class RecipeApi {
         return recipeRepository.save(newRecipe);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<RecipeEntity> updateTutorial(@PathVariable("id") long id, @RequestBody RecipeEntity recipe) {
+        Optional<RecipeEntity> recipeData = recipeRepository.findById(id);
+
+        if (recipeData.isPresent()) {
+            RecipeEntity _recipe = recipeData.get();
+            _recipe.setRecipeName(recipe.getRecipeName());
+            _recipe.setRecipeDescription(recipe.getRecipeDescription());
+            _recipe.setPrepTime(recipe.getPrepTime());
+            _recipe.setCookTime(recipe.getCookTime());
+            return new ResponseEntity<>(recipeRepository.save(_recipe), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @DeleteMapping("/{id}")
     public void deleteRecipeEntity(@PathVariable("id") Long id) {
         recipeRepository.deleteById(id);
+    }
+
+    @DeleteMapping
+    public void deleteAllRecipe() {
+        recipeRepository.deleteAll();
+    }
+
+    @GetMapping("/recipename")
+    public List<RecipeEntity> findRecipeByName(@RequestParam("name") String name) {
+        return recipeRepository.findByRecipeName(name);
     }
 
 }
