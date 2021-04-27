@@ -11,4 +11,16 @@ import java.util.List;
 @Service
 public class UserService implements IUserService {
 
+    @Autowired
+    UserRepository userRepository;
+
+    @Override
+    public UserEntity login(String username, String password) {
+        return userRepository.findByUserNameAndAndPassword(username, password);
+    }
+
+    @Override
+    public UserEntity getInfo(Long id) {
+        return userRepository.findByUserId(id);
+    }
 }

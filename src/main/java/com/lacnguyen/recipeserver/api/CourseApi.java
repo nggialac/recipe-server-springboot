@@ -5,10 +5,13 @@ import com.lacnguyen.recipeserver.repository.CourseRepository;
 import com.lacnguyen.recipeserver.service.ICourseService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.lang.Long;
+import java.util.List;
 import java.util.Optional;
 
 @Api(value = "Course APIs")
@@ -18,29 +21,26 @@ import java.util.Optional;
 public class CourseApi {
 
     @Autowired
-    private CourseRepository courseRepository;
-
-    @Autowired
     private ICourseService iCourseService;
 
     @GetMapping
     public Collection<CourseEntity> findListCourse() {
-        return courseRepository.findAll();
+        return iCourseService.findAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<CourseEntity> findCourseById(@PathVariable("id") Long id) {
-        return iCourseService.findById(id);
+    public List<CourseEntity> findCourseById(@PathVariable("id") Long id) {
+        return iCourseService.findByCourseId(id);
     }
 
     @PostMapping
-    public CourseEntity createRecipeEntity(@RequestBody CourseEntity objCourse) {
-        return courseRepository.save(objCourse);
+    public ResponseEntity<CourseEntity> createRecipeEntity(@RequestBody CourseEntity objCourse) {
+        return new ResponseEntity<>(iCourseService.save(objCourse), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public void deleteRecipeEntity(@PathVariable("id") Long id) {
-        courseRepository.deleteById(id);
+        iCourseService.deleteByCourseId(id);
     }
 
 }
