@@ -22,7 +22,7 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
             "    ON rc.food_category_id = fc.foodcategoryid \n", nativeQuery = true)
     List<FoodCategoryEntity> findFoodCategoryByRecipeId(Long id);
 
-    List<RecipeEntity> findByRecipeId(Long id);
+    RecipeEntity findByRecipeId(Long id);
 
-    List<RecipeEntity> findByRecipeName(String name);
+    List<RecipeEntity> findByRecipeNameContains(String name);
 }

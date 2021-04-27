@@ -32,7 +32,7 @@ public class RecipeApi {
     }
 
     @GetMapping("/{id}")
-    public List<RecipeEntity> findRecipeById(@PathVariable("id") Long id) {
+    public RecipeEntity findRecipeById(@PathVariable("id") Long id) {
         return recipeRepository.findByRecipeId(id);
     }
 
@@ -41,6 +41,7 @@ public class RecipeApi {
         return recipeRepository.save(newRecipe);
     }
 
+    @CrossOrigin
     @PutMapping("/{id}")
     public ResponseEntity<RecipeEntity> updateTutorial(@PathVariable("id") long id, @RequestBody RecipeEntity recipe) {
         Optional<RecipeEntity> recipeData = recipeRepository.findById(id);
@@ -57,6 +58,7 @@ public class RecipeApi {
         }
     }
 
+    @CrossOrigin
     @DeleteMapping("/{id}")
     public void deleteRecipeEntity(@PathVariable("id") Long id) {
         recipeRepository.deleteById(id);
@@ -69,7 +71,7 @@ public class RecipeApi {
 
     @GetMapping("/recipename")
     public List<RecipeEntity> findRecipeByName(@RequestParam("name") String name) {
-        return recipeRepository.findByRecipeName(name);
+        return recipeRepository.findByRecipeNameContains(name.trim());
     }
 
 }

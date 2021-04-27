@@ -17,12 +17,17 @@ public class RecipeService implements IRecipeService {
     RecipeRepository recipeRepository;
 
     @Override
-    public List<RecipeEntity> findByRecipeId(Long id) {
+    public RecipeEntity findByRecipeId(Long id) {
         return recipeRepository.findByRecipeId(id);
     }
 
     @Override
     public Collection<RecipeEntity> findListRecipe() {
+        return recipeRepository.findAll();
+    }
+
+    @Override
+    public Collection<RecipeEntity> findByRecipeNameContains() {
         return recipeRepository.findAll();
     }
 
