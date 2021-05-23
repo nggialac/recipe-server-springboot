@@ -30,6 +30,9 @@ public class RecipeEntity {
     @Column(name = "recipedescription")
     private String recipeDescription;
 
+    @Column(name = "recipeimage")
+    private String recipeImage;
+
     @Column(name = "preptime")
     private int prepTime;
 
