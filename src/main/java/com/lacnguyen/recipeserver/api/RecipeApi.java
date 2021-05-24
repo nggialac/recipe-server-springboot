@@ -52,6 +52,7 @@ public class RecipeApi {
             _recipe.setRecipeDescription(recipe.getRecipeDescription());
             _recipe.setPrepTime(recipe.getPrepTime());
             _recipe.setCookTime(recipe.getCookTime());
+            _recipe.setRecipeImage(recipe.getRecipeImage());
             return new ResponseEntity<>(recipeRepository.save(_recipe), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
