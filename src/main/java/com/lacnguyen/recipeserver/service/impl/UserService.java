@@ -3,6 +3,7 @@ package com.lacnguyen.recipeserver.service.impl;
 import com.lacnguyen.recipeserver.entity.UserEntity;
 import com.lacnguyen.recipeserver.repository.UserRepository;
 import com.lacnguyen.recipeserver.service.IUserService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ public class UserService implements IUserService {
     UserRepository userRepository;
 
     @Override
-    public UserEntity login(String username, String password) {
+    public UserEntity userLogin(String username, String password) {
         return userRepository.findByUserNameAndAndPassword(username, password);
     }
 

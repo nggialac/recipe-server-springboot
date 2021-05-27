@@ -22,7 +22,7 @@ public class CourseService implements ICourseService {
     }
 
     @Override
-    public List<CourseEntity> findByCourseId(Long id) {
+    public Optional<CourseEntity> findByCourseId(Long id) {
         return courseRepository.findByCourseId(id);
     }
 
@@ -32,7 +32,17 @@ public class CourseService implements ICourseService {
     }
 
     @Override
-    public CourseEntity deleteByCourseId(Long id) {
-        return deleteByCourseId(id);
+    public void deleteByCourseId(Long id) {
+        courseRepository.deleteByCourseId(id);
+    }
+
+    @Override
+    public List<CourseEntity> findByCourseNameContains(String name){
+        return courseRepository.findByCourseNameContains(name);
+    }
+
+    @Override
+    public void updateCourse(CourseEntity objCourse){
+        courseRepository.save(objCourse);
     }
 }

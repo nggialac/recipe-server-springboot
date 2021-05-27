@@ -1,6 +1,7 @@
 package com.lacnguyen.recipeserver.api;
 
 import com.lacnguyen.recipeserver.entity.CourseEntity;
+import com.lacnguyen.recipeserver.entity.RecipeEntity;
 import com.lacnguyen.recipeserver.repository.CourseRepository;
 import com.lacnguyen.recipeserver.service.ICourseService;
 import io.swagger.annotations.Api;
@@ -24,13 +25,15 @@ public class CourseApi {
     private ICourseService iCourseService;
 
     @GetMapping
-    public Collection<CourseEntity> findListCourse() {
-        return iCourseService.findAll();
+    public ResponseEntity<Collection<CourseEntity>> findListCourse() {
+        return new ResponseEntity<>(iCourseService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public List<CourseEntity> findCourseById(@PathVariable("id") Long id) {
-        return iCourseService.findByCourseId(id);
+    public ResponseEntity<CourseEntity> findCourseById(@PathVariable("id") Long id) {
+        Optional<CourseEntity> courseOptional = iCourseService.findByCourseId(id);
+        return courseOptional.map(course -> new ResponseEntity<>(course, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
@@ -39,8 +42,34 @@ public class CourseApi {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteRecipeEntity(@PathVariable("id") Long id) {
-        iCourseService.deleteByCourseId(id);
+    public ResponseEntity<CourseEntity> deleteRecipeEntity(@PathVariable("id") Long id) {
+        //iCourseService.deleteByCourseId(id);
+        Optional<CourseEntity> courseOptional = iCourseService.findByCourseId(id);
+        return courseOptional.map(course -> {
+            iCourseService.deleteByCourseId(id);
+            return new ResponseEntity<>(course, HttpStatus.OK);
+        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping("/coursename")
+    public ResponseEntity<List<CourseEntity>> findCourseByName(@RequestParam("name") String name) {
+        return new ResponseEntity<>(iCourseService.findByCourseNameContains(name.trim()), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CourseEntity> updateCourse(@PathVariable("id") long id, @RequestBody CourseEntity course) {
+        Optional<CourseEntity> courseData = iCourseService.findByCourseId(id);
+
+        if (courseData.isPresent()) {
+            CourseEntity _course = courseData.get();
+            _course.setCourseName(course.getCourseName());
+            _course.setCreateBy(course.getCreateBy());
+            _course.setCreateDate(course.getCreateDate());
+//            _course.setCookTime(course.getCookTime());
+//            _course.setRecipeImage(course.getRecipeImage());
+            return new ResponseEntity<>(iCourseService.save(_course), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }

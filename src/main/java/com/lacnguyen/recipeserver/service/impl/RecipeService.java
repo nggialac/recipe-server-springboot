@@ -17,8 +17,8 @@ public class RecipeService implements IRecipeService {
     RecipeRepository recipeRepository;
 
     @Override
-    public RecipeEntity findByRecipeId(Long id) {
-        return recipeRepository.findByRecipeId(id);
+    public Optional findByRecipeId(Long id) {
+        return recipeRepository.findById(id);
     }
 
     @Override
@@ -29,6 +29,11 @@ public class RecipeService implements IRecipeService {
     @Override
     public Collection<RecipeEntity> findByRecipeNameContains() {
         return recipeRepository.findAll();
+    }
+
+    @Override
+    public void removeARecipe(Long id) {
+        recipeRepository.deleteById(id);
     }
 
 

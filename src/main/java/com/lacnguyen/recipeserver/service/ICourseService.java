@@ -9,9 +9,13 @@ public interface ICourseService {
 
     List<CourseEntity> findAll();
 
-    List<CourseEntity> findByCourseId(Long id);
+    Optional<CourseEntity> findByCourseId(Long id);
 
     CourseEntity save(CourseEntity objCourse);
 
-    CourseEntity deleteByCourseId(Long id);
+    void deleteByCourseId(Long id);
+
+    List<CourseEntity> findByCourseNameContains(String name);
+
+    void updateCourse(CourseEntity objCourse);
 }

@@ -30,6 +30,12 @@ public class CourseEntity {
     @Column(name = "coursename")
     private String courseName;
 
+    @Column(name = "courseimage")
+    private String courseImage;
+
+    @Column(name = "coursecontent")
+    private String courseContent;
+
     @CreatedBy
     @Column(name = "createby")
     private String createBy;

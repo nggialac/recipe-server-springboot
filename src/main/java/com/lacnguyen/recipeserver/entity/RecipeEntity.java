@@ -1,6 +1,7 @@
 package com.lacnguyen.recipeserver.entity;
 
 import com.fasterxml.jackson.annotation.*;
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ public class RecipeEntity {
     @Column(name = "recipeid")
     private Long recipeId;
 
+    @NotNull
     @Column(name = "recipename")
     private String recipeName;
 

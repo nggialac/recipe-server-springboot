@@ -27,23 +27,25 @@ public class RecipeApi {
     private IRecipeService iRecipeService;
 
     @GetMapping
-    public Collection<RecipeEntity> findListRecipe() {
-        return iRecipeService.findListRecipe();
+    public ResponseEntity<Collection<RecipeEntity>> findListRecipe() {
+        return new ResponseEntity<>(recipeRepository.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public RecipeEntity findRecipeById(@PathVariable("id") Long id) {
-        return recipeRepository.findByRecipeId(id);
+    public ResponseEntity<RecipeEntity> findRecipeById(@PathVariable("id") Long id) {
+        Optional<RecipeEntity> recipeOptional = iRecipeService.findByRecipeId(id);
+        return recipeOptional.map(recipe -> new ResponseEntity<>(recipe, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public RecipeEntity newRecipe(@RequestBody RecipeEntity newRecipe) {
-        return recipeRepository.save(newRecipe);
+    public ResponseEntity<RecipeEntity> newRecipe(@RequestBody RecipeEntity newRecipe) {
+        return new ResponseEntity<>(recipeRepository.save(newRecipe), HttpStatus.OK);
     }
 
     @CrossOrigin
     @PutMapping("/{id}")
-    public ResponseEntity<RecipeEntity> updateTutorial(@PathVariable("id") long id, @RequestBody RecipeEntity recipe) {
+    public ResponseEntity<RecipeEntity> updateRecipe(@PathVariable("id") long id, @RequestBody RecipeEntity recipe) {
         Optional<RecipeEntity> recipeData = recipeRepository.findById(id);
 
         if (recipeData.isPresent()) {
@@ -59,15 +61,24 @@ public class RecipeApi {
         }
     }
 
-    @CrossOrigin
-    @DeleteMapping("/{id}")
-    public void deleteRecipeEntity(@PathVariable("id") Long id) {
-        recipeRepository.deleteById(id);
-    }
+//    @CrossOrigin
+//    @DeleteMapping("/{id}")
+//    public void deleteRecipeEntity(@PathVariable("id") Long id) {
+//        recipeRepository.deleteById(id);
+//    }
 
     @DeleteMapping
     public void deleteAllRecipe() {
         recipeRepository.deleteAll();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<RecipeEntity> deleteCategory(@PathVariable Long id) {
+        Optional<RecipeEntity> recipeOptional = iRecipeService.findByRecipeId(id);
+        return recipeOptional.map(recipe -> {
+            iRecipeService.removeARecipe(id);
+            return new ResponseEntity<>(recipe, HttpStatus.OK);
+        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/recipename")

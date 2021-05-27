@@ -9,9 +9,11 @@ import java.util.Optional;
 
 public interface IRecipeService {
 
-    RecipeEntity findByRecipeId(Long id);
+    Optional findByRecipeId(Long id);
 
     Collection<RecipeEntity> findListRecipe();
 
     Collection<RecipeEntity> findByRecipeNameContains();
+
+    void removeARecipe(Long id);
 }
