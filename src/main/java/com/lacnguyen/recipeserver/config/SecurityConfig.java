@@ -27,9 +27,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/api/*").permitAll()
+                .antMatchers("/api/*", "/").permitAll()
                 .antMatchers(HttpMethod.POST,"/login").permitAll()
-                .anyRequest().authenticated();
+                .antMatchers("/login/*").authenticated();
     }
 
 //    @Bean
