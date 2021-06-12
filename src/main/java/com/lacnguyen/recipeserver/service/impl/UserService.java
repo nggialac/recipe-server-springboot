@@ -24,4 +24,9 @@ public class UserService implements IUserService {
     public UserEntity getInfo(Long id) {
         return userRepository.findByUserId(id);
     }
+
+    @Override
+    public UserEntity getInfo(String username) {
+        return userRepository.findByUserName(username);
+    }
 }

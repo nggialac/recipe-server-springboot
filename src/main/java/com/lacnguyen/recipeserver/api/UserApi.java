@@ -1,9 +1,11 @@
 package com.lacnguyen.recipeserver.api;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lacnguyen.recipeserver.entity.LoginEntity;
 import com.lacnguyen.recipeserver.entity.UserEntity;
+import com.lacnguyen.recipeserver.models.JwtResponse;
 import com.lacnguyen.recipeserver.service.IUserService;
 
 import io.jsonwebtoken.JwtBuilder;
@@ -11,6 +13,11 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.swagger.annotations.Api;
 import org.apache.catalina.User;
+import org.apache.tomcat.util.codec.binary.Base64;
+
+
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +25,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.DataInput;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,11 +61,11 @@ public class UserApi {
         ObjectMapper mapper = new ObjectMapper();
         LoginEntity loginEntity = mapper.readValue(json, LoginEntity.class);
         UserEntity userEntity = iUserService.userLogin(loginEntity.getUsername(), loginEntity.getPassword());
-        if(userEntity != null){
+        if (userEntity != null) {
             String token = getJWTToken(userEntity.getUserName());
             LoginEntity user = new LoginEntity();
             user.setUsername(userEntity.getUserName());
-            user.setFullname(userEntity.getFullName());
+//            user.setFullname(userEntity.getFullName());
             user.setToken(token);
             return new ResponseEntity<>(user, HttpStatus.OK);
         }
@@ -80,5 +91,26 @@ public class UserApi {
         return "Bearer " + token;
     }
 
+//    @PostMapping("/decodeJWT")
+//    private ResponseEntity<UserEntity> getDecodeJWT(@RequestBody String token) throws IOException, JSONException {
+//        String payload = token.split("\\.")[1];
+//        JSONObject obj = new JSONObject(new String(Base64.decodeBase64(payload), "UTF-8"));
+//        String subject = obj.getString("sub");
+//        UserEntity userEntity = iUserService.getInfo(subject);
+//        if(userEntity != null) return new ResponseEntity<>(userEntity, HttpStatus.OK);
+//        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//    }
 
+    @PostMapping("/decodejwt")
+    private ResponseEntity<UserEntity> getDecodeJWT(@RequestHeader("Authorization") String token) throws IOException, JSONException {
+        if (token == null) return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        String subToken = token.substring(7, token.length());
+        System.out.println(subToken);
+        String payload = subToken.split("\\.")[1];
+        JSONObject obj = new JSONObject(new String(Base64.decodeBase64(payload), "UTF-8"));
+        String subject = obj.getString("sub");
+        UserEntity userEntity = iUserService.getInfo(subject);
+        if (userEntity != null) return new ResponseEntity<>(userEntity, HttpStatus.OK);
+        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }

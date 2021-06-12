@@ -8,4 +8,5 @@ import java.util.List;
 public interface IUserService {
     UserEntity userLogin(String username, String password);
     UserEntity getInfo(Long id);
+    UserEntity getInfo(String username);
 }
