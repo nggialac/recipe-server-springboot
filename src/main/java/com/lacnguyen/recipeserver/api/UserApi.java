@@ -54,6 +54,7 @@ public class UserApi {
             String token = getJWTToken(userEntity.getUserName());
             LoginEntity user = new LoginEntity();
             user.setUsername(userEntity.getUserName());
+            user.setFullname(userEntity.getFullName());
             user.setToken(token);
             return new ResponseEntity<>(user, HttpStatus.OK);
         }

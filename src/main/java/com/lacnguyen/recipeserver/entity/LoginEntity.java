@@ -17,6 +17,9 @@ public class LoginEntity {
         @JsonProperty("password")
         public String password;
 
+        @JsonProperty("fullname")
+        public String fullname;
+
         @JsonProperty("token")
         public String token;
 }
