@@ -1,5 +1,7 @@
 package com.lacnguyen.recipeserver.config;
 
+import io.jsonwebtoken.*;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.List;
@@ -14,13 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.UnsupportedJwtException;
-
-    public class JWTAuthorizationFilter extends OncePerRequestFilter {
+public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
         private final String HEADER = "Authorization";
         private final String PREFIX = "Bearer ";
@@ -29,6 +25,13 @@ import io.jsonwebtoken.UnsupportedJwtException;
         @Override
         protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
             try {
+                System.out.println("doFilterInternal: "+request);
+                System.out.println("doFilterInternal: "+chain);
+
+                if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+                    response.setStatus(HttpServletResponse.SC_OK);
+                }
+
                 if (checkJWTToken(request, response)) {
                     Claims claims = validateToken(request);
                     if (claims.get("authorities") != null) {
@@ -48,6 +51,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
         }
 
         private Claims validateToken(HttpServletRequest request) {
+            System.out.println("validateToken: ");
             String jwtToken = request.getHeader(HEADER).replace(PREFIX, "");
             return Jwts.parser().setSigningKey(SECRET.getBytes()).parseClaimsJws(jwtToken).getBody();
         }
@@ -58,6 +62,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
          * @param claims
          */
         private void setUpSpringAuthentication(Claims claims) {
+            System.out.println("setUpSpringAuthentication");
             @SuppressWarnings("unchecked")
             List<String> authorities = (List) claims.get("authorities");
 
@@ -68,6 +73,8 @@ import io.jsonwebtoken.UnsupportedJwtException;
         }
 
         private boolean checkJWTToken(HttpServletRequest request, HttpServletResponse res) {
+            System.out.println("checkJWTToken: " + request.getHeader(HEADER));
+
             String authenticationHeader = request.getHeader(HEADER);
             if (authenticationHeader == null || !authenticationHeader.startsWith(PREFIX))
                 return false;
