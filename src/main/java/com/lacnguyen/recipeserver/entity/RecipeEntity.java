@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collector;
 
 @Getter
 @Setter
@@ -44,22 +45,22 @@ public class RecipeEntity {
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipe")
-    private Collection<RecipeStepEntity> recipe_steps = new ArrayList<>();
+    private Collection<RecipeStepEntity> recipe_steps;
 
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipe")
-    private Collection<CourseEntity> courses = new ArrayList<>();
+    private Collection<CourseEntity> courses;
 
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipe")
-    private Collection<IngredientEntity> ingredients = new ArrayList<>();
+    private Collection<IngredientEntity> ingredients;
 
     @JsonIgnore
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "recipe_category",
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "food_category_id"))
-    private List<FoodCategoryEntity> foodCategories = new ArrayList<>();
+    private List<FoodCategoryEntity> foodCategories;
 }

@@ -22,15 +22,11 @@ public class RecipeStepEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long stepId;
 
-    @Column(name = "stepnumber")
-    private int stepNumber;
-
     @Column(name = "stepdescription")
     private String stepDescription;
 
-
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "recipe_id")
+    @JoinColumn(name = "recipe_id", unique = true)
     private RecipeEntity recipe;
 }

@@ -31,7 +31,7 @@ public class FoodCategoryEntity {
     private String foodCategoryName;
 
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "foodCategories")
-    private List<RecipeEntity> recipe = new ArrayList<>();
+//    @JsonIgnore
+    @ManyToMany(mappedBy = "foodCategories", cascade = CascadeType.ALL)
+    private List<RecipeEntity> recipe;
 }

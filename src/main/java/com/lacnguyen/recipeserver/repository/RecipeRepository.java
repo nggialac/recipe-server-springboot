@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
@@ -25,4 +26,14 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
     RecipeEntity findByRecipeId(Long id);
 
     List<RecipeEntity> findByRecipeNameContains(String name);
+
+    RecipeEntity existsByRecipeId(Long id);
+
+    //Category
+    Optional<RecipeEntity> findByRecipeName(String name);
+//    Optional<RecipeEntity> findByRecipeId(Long id);
+//    @Query(value = "delete * from recipe_category where recipe_id= :recipe_id", nativeQuery = true)
+//    void deleteRelation(@Param("recipe_id") Long recipe_id);
+    //    @Query("from User where email= :email")
+//   User  findByEmail(@Param("email") String email);
 }

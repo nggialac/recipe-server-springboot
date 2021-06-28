@@ -1,6 +1,9 @@
 package com.lacnguyen.recipeserver.service.impl;
 
+import com.lacnguyen.recipeserver.entity.RecipeEntity;
 import com.lacnguyen.recipeserver.entity.RecipeStepEntity;
+import com.lacnguyen.recipeserver.entity.ResponseEntity;
+import com.lacnguyen.recipeserver.repository.RecipeRepository;
 import com.lacnguyen.recipeserver.repository.RecipeStepRepository;
 import com.lacnguyen.recipeserver.service.IRecipeStepService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +18,9 @@ public class RecipeStepService implements IRecipeStepService {
     @Autowired
     RecipeStepRepository recipeStepRepository;
 
-
     @Override
-    public List<RecipeStepEntity> findAllRecipeStep() {
-        return recipeStepRepository.findAll();
+    public Optional<RecipeStepEntity> findByRecipeId(Long id) {
+        return recipeStepRepository.findByRecipe_RecipeId(id);
     }
 
     @Override
@@ -32,14 +34,12 @@ public class RecipeStepService implements IRecipeStepService {
     }
 
     @Override
-    public void deleteByRecipeStepId(Long id) {
-        recipeStepRepository.deleteById(id);
+    public void deleteStep(Long id) {
+        recipeStepRepository.deleteByStepId(id);
     }
 
     @Override
     public void updateRecipeStep(RecipeStepEntity objCourse) {
-
+        recipeStepRepository.save(objCourse);
     }
-
-
 }

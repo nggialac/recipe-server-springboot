@@ -45,4 +45,19 @@ public class CourseService implements ICourseService {
     public void updateCourse(CourseEntity objCourse){
         courseRepository.save(objCourse);
     }
+
+    @Override
+    public Optional<CourseEntity> getAllCourseByRecipeId(Long id){
+        return courseRepository.findByRecipe_RecipeId(id);
+    }
+
+    @Override
+    public Optional<CourseEntity> findByIdAndRecipeId(Long id, Long recipeId){
+        return courseRepository.findByCourseIdAndRecipe_RecipeId(id, recipeId);
+    }
+
+    @Override
+    public void deleteById(CourseEntity course){
+        courseRepository.delete(course);
+    }
 }

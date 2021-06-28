@@ -29,13 +29,11 @@ public class IngredientEntity {
     @Column(name = "ingredientquantity")
     private float ingredientQuantity;
 
+    @Column(name = "measurement")
+    private String measurement;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "recipe_id")
     private RecipeEntity recipe;
-
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "measurement_id")
-    private MeasurementEntity measurement;
 }

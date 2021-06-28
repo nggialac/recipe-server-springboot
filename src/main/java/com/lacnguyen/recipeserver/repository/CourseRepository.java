@@ -18,4 +18,8 @@ public interface CourseRepository extends JpaRepository<CourseEntity, Long> {
     void deleteByCourseId(Long id);
 
     List<CourseEntity> findByCourseNameContains(String name);
+
+    Optional<CourseEntity> findByRecipe_RecipeId(Long id);
+
+    Optional<CourseEntity> findByCourseIdAndRecipe_RecipeId(Long id, Long recipeId);
 }

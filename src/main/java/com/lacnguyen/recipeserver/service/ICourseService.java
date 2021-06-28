@@ -18,4 +18,11 @@ public interface ICourseService {
     List<CourseEntity> findByCourseNameContains(String name);
 
     void updateCourse(CourseEntity objCourse);
+
+    ////
+    Optional<CourseEntity> getAllCourseByRecipeId(Long id);
+
+    Optional<CourseEntity> findByIdAndRecipeId(Long id, Long recipeId);
+
+    void deleteById(CourseEntity course);
 }

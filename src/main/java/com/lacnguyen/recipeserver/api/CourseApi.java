@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -65,11 +66,13 @@ public class CourseApi {
             _course.setCourseName(course.getCourseName());
             _course.setCreateBy(course.getCreateBy());
             _course.setCreateDate(course.getCreateDate());
-//            _course.setCookTime(course.getCookTime());
-//            _course.setRecipeImage(course.getRecipeImage());
+            _course.setCourseContent(course.getCourseContent());
+            _course.setCourseImage(course.getCourseImage());
             return new ResponseEntity<>(iCourseService.save(_course), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+
 }

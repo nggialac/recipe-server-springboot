@@ -25,11 +25,6 @@ public class RecipeStepApi {
     @Autowired
     private IRecipeStepService iRecipeStepService;
 
-    @GetMapping
-    public ResponseEntity<List<RecipeStepEntity>> findListRecipeStep() {
-        return new ResponseEntity<>(iRecipeStepService.findAllRecipeStep(), HttpStatus.OK);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<RecipeStepEntity> findRecipeStepById(@PathVariable("id") Long id) {
         Optional<RecipeStepEntity> recipeStepOptional = iRecipeStepService.findByRecipeStepId(id);
@@ -37,10 +32,12 @@ public class RecipeStepApi {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping(consumes = "application/json", produces = "application/json")
-    public ResponseEntity<RecipeStepEntity> newRecipeStep(@RequestBody RecipeStepEntity newRecipe) {
-        return new ResponseEntity<>(iRecipeStepService.save(newRecipe), HttpStatus.OK);
-    }
+//    @PostMapping(consumes = "application/json", produces = "application/json")
+//    public ResponseEntity<RecipeStepEntity> newRecipeStep(@RequestBody RecipeStepEntity newRecipe) {
+//        return new ResponseEntity<>(iRecipeStepService.save(newRecipe), HttpStatus.OK);
+//    }
+
+
 
     @CrossOrigin
     @PutMapping("/{id}")
@@ -48,7 +45,6 @@ public class RecipeStepApi {
         Optional<RecipeStepEntity> recipeStepData = iRecipeStepService.findByRecipeStepId(id);
         if (recipeStepData.isPresent()) {
             RecipeStepEntity _recipeStep = recipeStepData.get();
-            _recipeStep.setStepNumber(recipe.getStepNumber());
             _recipeStep.setStepDescription(recipe.getStepDescription());
             return new ResponseEntity<>(iRecipeStepService.save(_recipeStep), HttpStatus.OK);
         } else {
@@ -61,7 +57,7 @@ public class RecipeStepApi {
     public ResponseEntity<RecipeStepEntity> deleteRecipeStepEntity(@PathVariable("id") Long id) {
         Optional<RecipeStepEntity> recipeStepOptional = iRecipeStepService.findByRecipeStepId(id);
         return recipeStepOptional.map(recipeStep -> {
-            iRecipeStepService.deleteByRecipeStepId(id);
+            iRecipeStepService.deleteStep(id);
             return new ResponseEntity<>(recipeStep, HttpStatus.OK);
         }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
