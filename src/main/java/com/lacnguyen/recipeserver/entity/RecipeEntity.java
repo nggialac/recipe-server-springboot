@@ -57,7 +57,7 @@ public class RecipeEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipe")
     private Collection<IngredientEntity> ingredients;
 
-//    @JsonIgnore
+    @JsonIgnoreProperties("recipe")
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "recipe_category",
             joinColumns = @JoinColumn(name = "recipe_id"),
