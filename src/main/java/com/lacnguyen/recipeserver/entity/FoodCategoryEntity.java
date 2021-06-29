@@ -1,9 +1,6 @@
 package com.lacnguyen.recipeserver.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,7 +28,8 @@ public class FoodCategoryEntity {
     private String foodCategoryName;
 
 
-//    @JsonIgnore
+    @JsonIgnore
+//    @JsonIgnoreProperties(value="foodCategories")
     @ManyToMany(mappedBy = "foodCategories", cascade = CascadeType.ALL)
     private List<RecipeEntity> recipe;
 }
