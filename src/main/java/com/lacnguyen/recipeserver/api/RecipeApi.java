@@ -251,7 +251,7 @@ public class RecipeApi {
     public List<RecipeEntity> getUsers() {
         return recipeRepository.findAll();
     }
-    @PutMapping("/user/update/{id}")
+    @PutMapping("/update/{id}/fc")
     public ResponseEntity<Object> updateUser(@PathVariable Long id, @RequestBody RecipeEntity recipe) {
         return iRecipeService.updateRecipe_FC(recipe, id);
     }
