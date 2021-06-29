@@ -58,7 +58,7 @@ public class RecipeEntity {
     private Collection<IngredientEntity> ingredients;
 
     @JsonIgnoreProperties("recipe")
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany()
     @JoinTable(name = "recipe_category",
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "food_category_id"))
