@@ -28,8 +28,8 @@ public class FoodCategoryEntity {
     private String foodCategoryName;
 
 
-    @JsonIgnore
-//    @JsonIgnoreProperties(value="foodCategories")
+//    @JsonIgnore
+    @JsonIgnoreProperties(value="foodCategories")
     @ManyToMany(mappedBy = "foodCategories", cascade = CascadeType.ALL)
     private List<RecipeEntity> recipe;
 }
