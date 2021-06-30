@@ -2,11 +2,12 @@ package com.lacnguyen.recipeserver.service;
 
 import com.lacnguyen.recipeserver.entity.IngredientEntity;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface IIngredientService {
 
-    Optional<IngredientEntity> getAllIngredientByRecipeId(Long id);
+    List<IngredientEntity> getAllIngredientByRecipeId(Long id);
 
     IngredientEntity save(IngredientEntity obj);
 

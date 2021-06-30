@@ -7,6 +7,7 @@ import com.lacnguyen.recipeserver.service.IIngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,8 +17,8 @@ public class IngredientService implements IIngredientService {
     IngredientRepository ingredientRepository;
 
     @Override
-    public Optional<IngredientEntity> getAllIngredientByRecipeId(Long id){
-        return ingredientRepository.findByRecipe_RecipeId(id);
+    public List<IngredientEntity> getAllIngredientByRecipeId(Long id){
+        return ingredientRepository.findAll(id);
     }
 
     @Override

@@ -197,7 +197,7 @@ public class RecipeApi {
     /////////////////////RECIPE-INGREDIENT/////////////////////
 
     @GetMapping("/{id}/ingredient")
-    public Optional<IngredientEntity> getAllByRecipeId(@PathVariable(value = "id") Long id) {
+    public List<IngredientEntity> getAllByRecipeId(@PathVariable(value = "id") Long id) {
         return iIngredientService.getAllIngredientByRecipeId(id);
     }
 
