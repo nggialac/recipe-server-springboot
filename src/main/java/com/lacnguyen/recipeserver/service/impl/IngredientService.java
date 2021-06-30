@@ -40,4 +40,5 @@ public class IngredientService implements IIngredientService {
     public Optional<IngredientEntity> findByIdAndRecipeId(Long id, Long recipeId){
         return ingredientRepository.findByIngredientIdAndRecipe_RecipeId(id, recipeId);
     }
+
 }

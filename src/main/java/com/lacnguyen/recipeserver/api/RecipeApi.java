@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.lang.Long;
 import java.util.List;
@@ -73,6 +74,7 @@ public class RecipeApi {
             _recipe.setPrepTime(recipe.getPrepTime());
             _recipe.setCookTime(recipe.getCookTime());
             _recipe.setRecipeImage(recipe.getRecipeImage());
+//            _recipe.setFoodCategories(recipe.getFoodCategories());
             return new ResponseEntity<>(recipeRepository.save(_recipe), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -170,8 +172,8 @@ public class RecipeApi {
 
     @PutMapping("/{recipeId}/course/{courseId}")
     public CourseEntity updateCourse(@PathVariable(value = "recipeId") Long recipeId,
-                                      @PathVariable(value = "courseId") Long courseId,
-                                      @Validated @RequestBody CourseEntity courseRequest) {
+                                     @PathVariable(value = "courseId") Long courseId,
+                                     @Validated @RequestBody CourseEntity courseRequest) {
         if (!iRecipeService.isExistRecipe(recipeId)) {
             throw new ResourceNotFoundException("Recipe ID " + recipeId + " not found");
         }
@@ -186,7 +188,7 @@ public class RecipeApi {
 
     @DeleteMapping("/{recipeId}/course/{courseId}")
     public ResponseEntity<?> deleteCourse(@PathVariable(value = "recipeId") Long recipeId,
-                                           @PathVariable(value = "courseId") Long courseId) {
+                                          @PathVariable(value = "courseId") Long courseId) {
         return iCourseService.findByIdAndRecipeId(courseId, recipeId).map(course -> {
             iCourseService.deleteById(course);
             return ResponseEntity.ok().build();
@@ -203,17 +205,18 @@ public class RecipeApi {
 
     @PostMapping("/{id}/ingredient")
     public IngredientEntity createIngredient(@PathVariable(value = "id") Long id,
-                                     @Validated @RequestBody IngredientEntity ingredient) {
+                                             @Validated @RequestBody IngredientEntity ingredient) {
         return iRecipeService.findByRecipeId(id).map(recipe -> {
             ingredient.setRecipe(recipe);
             return iIngredientService.save(ingredient);
         }).orElseThrow(() -> new ResourceNotFoundException("ID: " + id + " not found!"));
     }
 
-    @PutMapping("/{recipeId}/course/{ingredientId}")
-    public IngredientEntity updateIngredient(@PathVariable(value = "recipeId") Long recipeId,
-                                      @PathVariable(value = "ingredientId") Long ingredientId,
-                                      @Validated @RequestBody IngredientEntity ingredientRequest) {
+    @CrossOrigin(origins = "*")
+    @RequestMapping(value = "/{id}/ingredient/{ingredientId}", method = RequestMethod.PUT)
+    public IngredientEntity updateIngredient(@PathVariable(value = "id") Long recipeId,
+                                             @PathVariable(value = "ingredientId") Long ingredientId,
+                                             @Validated @RequestBody IngredientEntity ingredientRequest) {
         if (!iRecipeService.isExistRecipe(recipeId)) {
             throw new ResourceNotFoundException("Recipe ID " + recipeId + " not found");
         }
@@ -228,7 +231,7 @@ public class RecipeApi {
 
     @DeleteMapping("/{recipeId}/ingredient/{ingredientId}")
     public ResponseEntity<?> deleteIngredient(@PathVariable(value = "recipeId") Long recipeId,
-                                           @PathVariable(value = "ingredientId") Long ingredientId) {
+                                              @PathVariable(value = "ingredientId") Long ingredientId) {
         return iIngredientService.findByIdAndRecipeId(ingredientId, recipeId).map(ingre -> {
             iIngredientService.deleteIngredient(ingre);
             return ResponseEntity.ok().build();
@@ -241,20 +244,24 @@ public class RecipeApi {
     public ResponseEntity<Object> createUser(@RequestBody RecipeEntity recipe) {
         return iRecipeService.createRecipe_FC(recipe);
     }
+
     @GetMapping("/details/{id}/fc")
     public RecipeEntity getUser(@PathVariable Long id) {
-        if(recipeRepository.findById(id).isPresent())
+        if (recipeRepository.findById(id).isPresent())
             return recipeRepository.findById(id).get();
-        else return  null;
+        else return null;
     }
+
     @GetMapping("/all/fc")
     public List<RecipeEntity> getUsers() {
         return recipeRepository.findAll();
     }
+
     @PutMapping("/update/{id}/fc")
     public ResponseEntity<Object> updateUser(@PathVariable Long id, @RequestBody RecipeEntity recipe) {
         return iRecipeService.updateRecipe_FC(recipe, id);
     }
+
     @DeleteMapping("/delete/{id}/fc")
     public ResponseEntity<Object> deleteUser(@PathVariable Long id) {
         return iRecipeService.deleteRecipe_FC(id);
