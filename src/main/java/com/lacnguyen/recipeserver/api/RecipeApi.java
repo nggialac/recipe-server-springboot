@@ -134,7 +134,7 @@ public class RecipeApi {
 //        }).orElseThrow(() -> new ResourceNotFoundException("CommentId " + commentId + "not found"));
 //    }
 
-    @PutMapping("/{id}}/recipestep")
+    @PutMapping("/{id}/recipestep")
     public RecipeStepEntity updateRecipeStep(@PathVariable(value = "id") Long id,
                                              @Validated @RequestBody RecipeStepEntity recipeStepRequest) {
         if (!iRecipeService.isExistRecipe(id)) {
@@ -147,7 +147,7 @@ public class RecipeApi {
         }).orElseThrow(() -> new ResourceNotFoundException("Not found"));
     }
 
-    @DeleteMapping("/{id}}/recipestep")
+    @DeleteMapping("/{id}/recipestep")
     public void deleteRecipeStep(@PathVariable(value = "id") Long id) {
         iRecipeStepService.deleteStep(id);
     }
