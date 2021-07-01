@@ -156,7 +156,13 @@ public class RecipeApi {
 
 
     ///////////////////////////////////////RECIPE-COURSE//////////
+
     @GetMapping("/{id}/course")
+    public List<CourseEntity> getAllCourse(@PathVariable(value = "id") Long id) {
+        return iCourseService.findAllCourse(id);
+    }
+
+    @GetMapping("/{id}/course/all")
     public Optional<CourseEntity> getAllCourseByRecipeId(@PathVariable(value = "id") Long id) {
         return iCourseService.getAllCourseByRecipeId(id);
     }

@@ -9,6 +9,8 @@ public interface ICourseService {
 
     List<CourseEntity> findAll();
 
+    List<CourseEntity> findAllCourse(Long id);
+
     Optional<CourseEntity> findByCourseId(Long id);
 
     CourseEntity save(CourseEntity objCourse);

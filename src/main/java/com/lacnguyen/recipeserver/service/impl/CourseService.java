@@ -22,6 +22,11 @@ public class CourseService implements ICourseService {
     }
 
     @Override
+    public List<CourseEntity> findAllCourse(Long id) {
+        return courseRepository.findAllCourse(id);
+    }
+
+    @Override
     public Optional<CourseEntity> findByCourseId(Long id) {
         return courseRepository.findByCourseId(id);
     }
