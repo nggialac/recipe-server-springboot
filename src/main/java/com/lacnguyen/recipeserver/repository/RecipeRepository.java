@@ -2,6 +2,8 @@ package com.lacnguyen.recipeserver.repository;
 
 import com.lacnguyen.recipeserver.entity.FoodCategoryEntity;
 import com.lacnguyen.recipeserver.entity.RecipeEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -26,6 +28,8 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
     RecipeEntity findByRecipeId(Long id);
 
     List<RecipeEntity> findByRecipeNameContains(String name);
+
+    Page<RecipeEntity> findByRecipeNameContains(String name, Pageable pageable);
 
     RecipeEntity existsByRecipeId(Long id);
 

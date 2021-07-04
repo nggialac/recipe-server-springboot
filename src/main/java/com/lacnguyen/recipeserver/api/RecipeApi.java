@@ -13,16 +13,14 @@ import com.lacnguyen.recipeserver.service.IRecipeService;
 import com.lacnguyen.recipeserver.service.IRecipeStepService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
 import java.lang.Long;
-import java.util.List;
-import java.util.Optional;
 
 @Api(value = "Recipe APIs")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -48,6 +46,37 @@ public class RecipeApi {
     @GetMapping
     public ResponseEntity<Collection<RecipeEntity>> findListRecipe() {
         return new ResponseEntity<>(recipeRepository.findAll(), HttpStatus.OK);
+    }
+
+//    @GetMapping("/pagination")
+//    public ResponseEntity<Page<RecipeEntity>> findListRecipe_Paginate(@RequestParam int pageSize,
+//                                                                      @RequestParam int pageNumber) {
+//        return new ResponseEntity<>(iRecipeService.findListRecipe_Paginate(pageNumber, pageSize), HttpStatus.OK);
+//    }
+
+    @GetMapping("/pagination")
+    public ResponseEntity<Map<String, Object>> findListRecipe_Paginate(@RequestParam(required = false) String name,
+                                                                      @RequestParam int pageSize,
+                                                                      @RequestParam int pageNumber) {
+        try{
+        List<RecipeEntity> recipeList = new ArrayList<>();
+        Page<RecipeEntity> recipePage;
+        if (name == null)
+            recipePage = iRecipeService.findListRecipe_Paginate(pageNumber, pageSize);
+        else
+            recipePage = iRecipeService.findByRecipeNameContains(name, pageNumber, pageSize);
+
+        recipeList = recipePage.getContent();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("tutorials", recipeList);
+        response.put("currentPage", recipePage.getNumber());
+        response.put("totalItems", recipePage.getTotalElements());
+        response.put("totalPages", recipePage.getTotalPages());
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{id}")
@@ -162,10 +191,30 @@ public class RecipeApi {
         return iCourseService.findAllCourse(id);
     }
 
-    @GetMapping("/{id}/course/all")
-    public Optional<CourseEntity> getAllCourseByRecipeId(@PathVariable(value = "id") Long id) {
-        return iCourseService.getAllCourseByRecipeId(id);
+    @GetMapping("/{id}/course/pagination")
+    public ResponseEntity<Map<String, Object>> getAllCourse(@PathVariable(value = "id") Long id,
+                                                            @RequestParam(value = "pageNumber") int pageNumber,
+                                                            @RequestParam(value = "pageSize") int pageSize) {
+        try {
+            List<CourseEntity> courseList = new ArrayList<>();
+            Page<CourseEntity> coursePage = iCourseService.findAllCourse(id, pageNumber, pageSize);
+            courseList = coursePage.getContent();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("courses", courseList);
+            response.put("currentPage", coursePage.getNumber());
+            response.put("totalItems", coursePage.getTotalElements());
+            response.put("totalPages", coursePage.getTotalPages());
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
+//    @GetMapping("/{id}/course/all")
+//    public Optional<CourseEntity> getAllCourseByRecipeId(@PathVariable(value = "id") Long id) {
+//        return iCourseService.getAllCourseByRecipeId(id);
+//    }
 
     @PostMapping("/{id}/course")
     public CourseEntity createCourse(@PathVariable(value = "id") Long id,

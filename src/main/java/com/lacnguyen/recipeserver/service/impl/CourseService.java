@@ -6,6 +6,9 @@ import com.lacnguyen.recipeserver.repository.CourseRepository;
 import com.lacnguyen.recipeserver.repository.RecipeRepository;
 import com.lacnguyen.recipeserver.service.ICourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +27,12 @@ public class CourseService implements ICourseService {
     @Override
     public List<CourseEntity> findAllCourse(Long id) {
         return courseRepository.findAllCourse(id);
+    }
+
+    @Override
+    public Page<CourseEntity> findAllCourse(Long id, int pageNumber, int pageSize) {
+        Pageable page = PageRequest.of(pageNumber, pageSize);
+        return courseRepository.findAllCourse(id, page);
     }
 
     @Override

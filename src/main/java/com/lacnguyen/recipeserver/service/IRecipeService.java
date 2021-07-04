@@ -3,6 +3,7 @@ package com.lacnguyen.recipeserver.service;
 
 import com.lacnguyen.recipeserver.entity.CourseEntity;
 import com.lacnguyen.recipeserver.entity.RecipeEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Collection;
@@ -18,7 +19,9 @@ public interface IRecipeService {
 
     Collection<RecipeEntity> findListRecipe();
 
-    Collection<RecipeEntity> findByRecipeNameContains();
+    Page<RecipeEntity> findListRecipe_Paginate(int pageNumber, int pageSize);
+
+    Page<RecipeEntity> findByRecipeNameContains(String name, int pageNumber, int pageSize);
 
     void removeARecipe(Long id);
 

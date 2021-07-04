@@ -2,6 +2,8 @@ package com.lacnguyen.recipeserver.repository;
 
 import com.lacnguyen.recipeserver.entity.CourseEntity;
 import com.lacnguyen.recipeserver.entity.IngredientEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -28,4 +30,7 @@ public interface CourseRepository extends JpaRepository<CourseEntity, Long> {
 
     @Query("SELECT i FROM  CourseEntity i WHERE i.recipe.recipeId=:recipeId")
     List<CourseEntity> findAllCourse(@Param("recipeId") Long recipeId);
+
+    @Query("SELECT i FROM  CourseEntity i WHERE i.recipe.recipeId=:recipeId")
+    Page<CourseEntity> findAllCourse(@Param("recipeId") Long recipeId, Pageable pageable);
 }

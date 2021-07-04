@@ -4,6 +4,9 @@ import com.lacnguyen.recipeserver.entity.RecipeEntity;
 import com.lacnguyen.recipeserver.repository.RecipeRepository;
 import com.lacnguyen.recipeserver.service.IRecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,8 +45,15 @@ public class RecipeService implements IRecipeService {
     }
 
     @Override
-    public Collection<RecipeEntity> findByRecipeNameContains() {
-        return recipeRepository.findAll();
+    public Page<RecipeEntity> findListRecipe_Paginate(int pageNumber, int pageSize) {
+        Pageable page = PageRequest.of(pageNumber, pageSize);
+        return recipeRepository.findAll(page);
+    }
+
+    @Override
+    public Page<RecipeEntity> findByRecipeNameContains(String name, int pageNumber, int pageSize) {
+        Pageable page = PageRequest.of(pageNumber, pageSize);
+        return recipeRepository.findByRecipeNameContains(name, page);
     }
 
     @Override
