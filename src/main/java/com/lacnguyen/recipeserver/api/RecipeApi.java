@@ -69,7 +69,7 @@ public class RecipeApi {
         recipeList = recipePage.getContent();
 
         Map<String, Object> response = new HashMap<>();
-        response.put("tutorials", recipeList);
+        response.put("recipes", recipeList);
         response.put("currentPage", recipePage.getNumber());
         response.put("totalItems", recipePage.getTotalElements());
         response.put("totalPages", recipePage.getTotalPages());
