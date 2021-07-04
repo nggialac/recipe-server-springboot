@@ -2,6 +2,7 @@ package com.lacnguyen.recipeserver.service;
 
 import com.lacnguyen.recipeserver.entity.CourseEntity;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +10,7 @@ import java.util.Optional;
 public interface ICourseService {
 
     List<CourseEntity> findAll();
+    Page<CourseEntity> findAll(int pageNumber, int pageSize);
 
     List<CourseEntity> findAllCourse(Long id);
     Page<CourseEntity> findAllCourse(Long id, int pageNumber, int pageSize);

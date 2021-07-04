@@ -6,6 +6,7 @@ import com.lacnguyen.recipeserver.repository.CourseRepository;
 import com.lacnguyen.recipeserver.service.ICourseService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -28,6 +29,12 @@ public class CourseApi {
     @GetMapping
     public ResponseEntity<Collection<CourseEntity>> findListCourse() {
         return new ResponseEntity<>(iCourseService.findAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/pagination")
+    public ResponseEntity<Page<CourseEntity>> findListCourse(@RequestParam int pageNumber,
+                                                             @RequestParam int pageSize) {
+        return new ResponseEntity<>(iCourseService.findAll(pageNumber, pageSize), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
