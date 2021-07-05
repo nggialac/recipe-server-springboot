@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.util.*;
 
 @Api(value = "Tips APIs")
@@ -28,13 +29,18 @@ public class TipsApi {
         return new ResponseEntity<>(iTipsService.findTipsAll(), HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<TipsEntity>> getById(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(iTipsService.findTipsById(id), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<TipsEntity> createTips(@RequestBody TipsEntity tipsEntity) {
         return new ResponseEntity<>(iTipsService.save(tipsEntity), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public TipsEntity updateTips(@RequestParam("id") Long id,
+    public TipsEntity updateTips(@PathVariable("id") Long id,
                                                  @Validated @RequestBody TipsEntity tipsEntity) {
         if (!iTipsService.isExist(id)) {
             throw new ResourceNotFoundException("Not found");
