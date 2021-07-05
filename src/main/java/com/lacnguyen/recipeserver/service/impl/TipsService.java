@@ -44,4 +44,10 @@ public class TipsService implements ITipsService {
     public boolean isExist(Long id){
         return tipsRepository.existsById(id);
     }
+
+    @Override
+    public Page<TipsEntity> findTipsTitle(String name, int pageNumber, int pageSize){
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        return tipsRepository.findAllByTitleContains(name, pageable);
+    }
 }

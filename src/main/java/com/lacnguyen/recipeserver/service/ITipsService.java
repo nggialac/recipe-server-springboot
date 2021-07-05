@@ -18,4 +18,6 @@ public interface ITipsService {
     TipsEntity save(TipsEntity tipsEntity);
 
     boolean isExist(Long id);
+
+    Page<TipsEntity> findTipsTitle(String name, int pageNumber, int pageSize);
 }

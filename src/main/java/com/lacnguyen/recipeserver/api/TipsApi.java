@@ -41,7 +41,7 @@ public class TipsApi {
 
     @PutMapping("/{id}")
     public TipsEntity updateTips(@PathVariable("id") Long id,
-                                                 @Validated @RequestBody TipsEntity tipsEntity) {
+                                 @Validated @RequestBody TipsEntity tipsEntity) {
         if (!iTipsService.isExist(id)) {
             throw new ResourceNotFoundException("Not found");
         }
@@ -55,12 +55,16 @@ public class TipsApi {
     }
 
     @GetMapping("/pagination")
-    public ResponseEntity<Map<String, Object>> getAllCourse(@PathVariable(value = "id") Long id,
+    public ResponseEntity<Map<String, Object>> getAllCourse(@RequestParam(required = false) String name,
                                                             @RequestParam(value = "pageNumber") int pageNumber,
                                                             @RequestParam(value = "pageSize") int pageSize) {
         try {
             List<TipsEntity> tipsList = new ArrayList<>();
-            Page<TipsEntity> tipsPage = iTipsService.findTipsAll(pageNumber, pageSize);
+            Page<TipsEntity> tipsPage;
+            if (name == null)
+                tipsPage = iTipsService.findTipsAll(pageNumber, pageSize);
+            else
+                tipsPage = iTipsService.findTipsTitle(name, pageNumber, pageSize);
             tipsList = tipsPage.getContent();
 
             Map<String, Object> response = new HashMap<>();
