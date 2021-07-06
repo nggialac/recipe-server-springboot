@@ -1,6 +1,7 @@
 package com.lacnguyen.recipeserver.api;
 
 import com.lacnguyen.recipeserver.entity.CourseEntity;
+import com.lacnguyen.recipeserver.entity.RecipeEntity;
 import com.lacnguyen.recipeserver.models.ResourceNotFoundException;
 import com.lacnguyen.recipeserver.service.ITipsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,7 @@ public class TipsApi {
     }
 
     @GetMapping("/pagination")
-    public ResponseEntity<Map<String, Object>> getAllCourse(@RequestParam(required = false) String name,
+    public ResponseEntity<Map<String, Object>> getAllTips(@RequestParam(required = false) String name,
                                                             @RequestParam(value = "pageNumber") int pageNumber,
                                                             @RequestParam(value = "pageSize") int pageSize) {
         try {
@@ -76,6 +77,15 @@ public class TipsApi {
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<TipsEntity> deleteTips(@PathVariable Long id) {
+        Optional<TipsEntity> tipsOptional = iTipsService.findTipsById(id);
+        return tipsOptional.map(tips -> {
+            iTipsService.deleteTipsById(id);
+            return new ResponseEntity<>(tips, HttpStatus.OK);
+        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
 }

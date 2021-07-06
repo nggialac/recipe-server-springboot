@@ -50,4 +50,9 @@ public class TipsService implements ITipsService {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         return tipsRepository.findAllByTitleContains(name, pageable);
     }
+
+    @Override
+    public void deleteTipsById(Long id) {
+        tipsRepository.deleteById(id);
+    }
 }

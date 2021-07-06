@@ -20,4 +20,6 @@ public interface ITipsService {
     boolean isExist(Long id);
 
     Page<TipsEntity> findTipsTitle(String name, int pageNumber, int pageSize);
+
+    void deleteTipsById(Long id);
 }
