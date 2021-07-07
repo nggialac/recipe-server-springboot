@@ -50,7 +50,7 @@ public class TipsApi {
             tips.setTitle(tipsEntity.getTitle());
             tips.setDescription(tipsEntity.getDescription());
             tips.setVideo(tipsEntity.getVideo());
-            tips.setAuthor(tips.getAuthor());
+            tips.setAuthor(tipsEntity.getAuthor());
             return iTipsService.save(tips);
         }).orElseThrow(() -> new ResourceNotFoundException("Not found"));
     }

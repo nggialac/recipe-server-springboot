@@ -4,8 +4,10 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lacnguyen.recipeserver.entity.LoginEntity;
+import com.lacnguyen.recipeserver.entity.TipsEntity;
 import com.lacnguyen.recipeserver.entity.UserEntity;
 import com.lacnguyen.recipeserver.models.JwtResponse;
+import com.lacnguyen.recipeserver.models.ResourceNotFoundException;
 import com.lacnguyen.recipeserver.service.IUserService;
 
 import io.jsonwebtoken.JwtBuilder;
@@ -23,6 +25,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.DataInput;
@@ -31,6 +34,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -51,9 +55,34 @@ public class UserApi {
 //        return new ResponseEntity<>(iUserService.userLogin(loginEntity.getUsername(), loginEntity.getPassword()), HttpStatus.OK);
 //    }
 
-    @GetMapping("/user/{id}")
-    public UserEntity getInfoUser(@RequestParam("id") Long id) {
-        return iUserService.getInfo(id);
+//    @GetMapping("/user/{id}")
+//    public UserEntity getInfoUser(@PathVariable("id") Long id) {
+//        return iUserService.getInfo(id);
+//    }
+
+    @PostMapping("/user")
+    public ResponseEntity<UserEntity> createTips(@RequestBody UserEntity userEntity) {
+        UserEntity temp = iUserService.findUserByName(userEntity.getUserName());
+        if(temp != null){
+            return new ResponseEntity<>(temp,HttpStatus.NOT_ACCEPTABLE);
+        }
+        else return new ResponseEntity<>(iUserService.save(userEntity), HttpStatus.OK);
+    }
+
+    @PostMapping("user/{id}")
+    public UserEntity userChangePass(@PathVariable("id") Long id,
+                                      @RequestParam("oldpass") String oldPass,
+                                      @RequestParam("newpass") String newPass) {
+        if (!iUserService.isExist(id)) {
+            throw new ResourceNotFoundException("Not found");
+        }
+        return iUserService.getUserById(id).map(user -> {
+            if(user.getPassword().equals(oldPass)){
+                user.setPassword(newPass);
+                return iUserService.save(user);
+            }
+            throw new ResourceNotFoundException("Password not correct!");
+        }).orElseThrow(() -> new ResourceNotFoundException("Not found"));
     }
 
     @PostMapping

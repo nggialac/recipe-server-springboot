@@ -1,10 +1,7 @@
 package com.lacnguyen.recipeserver.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,13 +29,14 @@ public class UserEntity {
     @Column(name = "username")
     private String userName;
 
-    @Column
+    @JsonIgnoreProperties(allowGetters = false, allowSetters = true)
+    @Column(name = "password")
     private String password;
 
     @Column(name = "fullname")
     private String fullName;
 
-    @Column
+    @Column(name = "status")
     private Boolean status;
 
 //    @ManyToMany
@@ -53,6 +51,7 @@ public class UserEntity {
 //    @JoinColumn(name = "role_id")
 //    private RoleEntity role;
 
-    @Column
+    @Column(name = "role")
     private String role;
+
 }
