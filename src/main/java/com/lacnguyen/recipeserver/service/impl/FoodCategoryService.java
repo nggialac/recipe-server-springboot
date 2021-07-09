@@ -71,7 +71,7 @@ public class FoodCategoryService implements IFoodCategoryService {
         if (foodCategoryRepository.findById(id).isPresent()) {
             FoodCategoryEntity newFC = foodCategoryRepository.findById(id).get();
             newFC.setFoodCategoryName(fc.getFoodCategoryName());
-//            newFC.setDescription(role.getDescription());
+            newFC.setRecipe(fc.getRecipe());
             FoodCategoryEntity savedFC = foodCategoryRepository.save(newFC);
             if (foodCategoryRepository.findById(savedFC.getFoodCategoryId()).isPresent())
                 return ResponseEntity.accepted().body("Food category saved successfully");

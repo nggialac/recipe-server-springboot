@@ -45,11 +45,11 @@ public class FoodCategoryApi {
         else return null;
     }
     @GetMapping("/all/recipe")
-    public List<FoodCategoryEntity> getRoles() {
+    public List<FoodCategoryEntity> getAllFc() {
         return foodCategoryRepository.findAll();
     }
     @PutMapping("/update/{id}/recipe")
-    public ResponseEntity<Object> updateRole(@PathVariable Long id, @RequestBody FoodCategoryEntity fc) {
+    public ResponseEntity<Object> updatePropFc(@PathVariable Long id, @RequestBody FoodCategoryEntity fc) {
         return iFoodCategoryService.updateFoodCategory(id, fc);
     }
 
