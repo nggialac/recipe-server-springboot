@@ -10,4 +10,6 @@ public interface IFoodCategoryService {
     ResponseEntity<Object> deleteFoodCategory(Long id);
 
     ResponseEntity<Object> updateFoodCategory(Long id, FoodCategoryEntity fc);
+
+    FoodCategoryEntity createFc(FoodCategoryEntity fc);
 }

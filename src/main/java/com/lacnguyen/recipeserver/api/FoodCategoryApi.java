@@ -6,6 +6,7 @@ import com.lacnguyen.recipeserver.service.IFoodCategoryService;
 import com.lacnguyen.recipeserver.service.impl.FoodCategoryService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,12 @@ public class FoodCategoryApi {
     @Autowired
     IFoodCategoryService iFoodCategoryService;
 
+    @PostMapping("/create")
+    public ResponseEntity<FoodCategoryEntity> createSingleFc(@RequestBody FoodCategoryEntity fc) {
+        return new ResponseEntity<>(iFoodCategoryService.createFc(fc), HttpStatus.OK);
+    }
+
+    //Need to fix if FC existed
     @PostMapping("/create/recipe")
     public ResponseEntity<Object> createFC(@RequestBody FoodCategoryEntity fc) {
         return  iFoodCategoryService.addFoodCategory(fc);

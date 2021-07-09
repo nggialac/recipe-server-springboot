@@ -29,7 +29,7 @@ public class FoodCategoryEntity {
 
 
 //    @JsonIgnore
-//    @JsonIgnoreProperties(value="foodCategories")
+    @JsonIgnoreProperties(value="foodCategories")
     @ManyToMany(mappedBy = "foodCategories", cascade = CascadeType.ALL)
     private List<RecipeEntity> recipe;
 }

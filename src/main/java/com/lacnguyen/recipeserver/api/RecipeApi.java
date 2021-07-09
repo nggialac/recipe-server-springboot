@@ -296,24 +296,24 @@ public class RecipeApi {
 
     //////////////FOOD_CATEGORY/////////////
     @PostMapping("/create/fc")
-    public ResponseEntity<Object> createUser(@RequestBody RecipeEntity recipe) {
+    public ResponseEntity<Object> createFc(@RequestBody RecipeEntity recipe) {
         return iRecipeService.createRecipe_FC(recipe);
     }
 
     @GetMapping("/details/{id}/fc")
-    public RecipeEntity getUser(@PathVariable Long id) {
+    public RecipeEntity getFc(@PathVariable Long id) {
         if (recipeRepository.findById(id).isPresent())
             return recipeRepository.findById(id).get();
         else return null;
     }
 
     @GetMapping("/all/fc")
-    public List<RecipeEntity> getUsers() {
+    public List<RecipeEntity> getFc() {
         return recipeRepository.findAll();
     }
 
     @PutMapping("/update/{id}/fc")
-    public ResponseEntity<Object> updateUser(@PathVariable Long id, @RequestBody RecipeEntity recipe) {
+    public ResponseEntity<Object> updateFc(@PathVariable Long id, @RequestBody RecipeEntity recipe) {
         return iRecipeService.updateRecipe_FC(recipe, id);
     }
 

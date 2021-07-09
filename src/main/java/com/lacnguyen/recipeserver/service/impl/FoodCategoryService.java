@@ -27,6 +27,10 @@ public class FoodCategoryService implements IFoodCategoryService {
         this.recipeRepository = recipeRepository;
     }
 
+    public FoodCategoryEntity createFc(FoodCategoryEntity fc) {
+        return foodCategoryRepository.save(fc);
+    }
+
     //New FoodCategory
     @Transactional
     public ResponseEntity<Object> addFoodCategory(FoodCategoryEntity foodCategoryEntity) {
@@ -34,6 +38,8 @@ public class FoodCategoryService implements IFoodCategoryService {
         FoodCategoryEntity newFoodCategory = new FoodCategoryEntity();
         newFoodCategory.setFoodCategoryName(foodCategoryEntity.getFoodCategoryName());
 //        newFoodCategory.setDescription(foodCategoryEntity.getDescription());
+        //Add condition new single FC
+
         List<FoodCategoryEntity> foodCategoryList = new ArrayList<>();
         foodCategoryList.add(newFoodCategory);
         for (int i = 0; i < foodCategoryEntity.getRecipe().size(); i++) {
