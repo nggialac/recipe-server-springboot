@@ -18,7 +18,7 @@ public class MailService implements IMailService {
         boolean foo = false; // Set the false, default variable "foo", we will allow it after sending code process email
 
         String senderEmail = "lacnguyenspringmvc1@gmail.com"; // your gmail email id
-        String senderPassword = "Lacnguyenspringmvc@1"; // your gmail id password
+        String senderPassword = "Llacnguyenspringmvc@1"; // your gmail id password
 
         // Properties class enables us to connect to the host SMTP server
         Properties properties = new Properties();
