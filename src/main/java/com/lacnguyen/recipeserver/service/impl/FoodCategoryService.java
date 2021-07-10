@@ -6,6 +6,9 @@ import com.lacnguyen.recipeserver.repository.FoodCategoryRepository;
 import com.lacnguyen.recipeserver.repository.RecipeRepository;
 import com.lacnguyen.recipeserver.service.IFoodCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +28,12 @@ public class FoodCategoryService implements IFoodCategoryService {
     public FoodCategoryService(FoodCategoryRepository foodCategoryRepository, RecipeRepository recipeRepository) {
         this.foodCategoryRepository = foodCategoryRepository;
         this.recipeRepository = recipeRepository;
+    }
+
+    @Override
+    public Page<FoodCategoryEntity> findListFc_Paginate(int pageNumber, int pageSize) {
+        Pageable page = PageRequest.of(pageNumber, pageSize);
+        return foodCategoryRepository.findAll(page);
     }
 
     public FoodCategoryEntity createFc(FoodCategoryEntity fc) {
