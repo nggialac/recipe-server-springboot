@@ -61,7 +61,7 @@ public class UserApi {
 //    }
 
     @PostMapping("/user")
-    public ResponseEntity<UserEntity> createTips(@RequestBody UserEntity userEntity) {
+    public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity userEntity) {
         UserEntity temp = iUserService.findUserByName(userEntity.getUserName());
         if(temp != null){
             return new ResponseEntity<>(temp,HttpStatus.NOT_ACCEPTABLE);
@@ -131,7 +131,7 @@ public class UserApi {
 //    }
 
     @PostMapping("/decodejwt")
-    private ResponseEntity<UserEntity> getDecodeJWT(@RequestHeader("Authorization") String token) throws IOException, JSONException {
+    private ResponseEntity<UserEntity> getUserFromDecodeJWT(@RequestHeader("Authorization") String token) throws IOException, JSONException {
         if (token == null) return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         String subToken = token.substring(7, token.length());
         System.out.println(subToken);

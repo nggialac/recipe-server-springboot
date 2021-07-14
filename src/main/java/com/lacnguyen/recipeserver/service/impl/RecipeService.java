@@ -99,7 +99,7 @@ public class RecipeService implements IRecipeService {
             else return ResponseEntity.unprocessableEntity().body("Failed updating the recipe specified");
         } else return ResponseEntity.unprocessableEntity().body("Cannot find the recipe specified");
     }
-    /** Delete an User*/
+    /** Delete **/
     public ResponseEntity<Object> deleteRecipe_FC(Long id) {
         if (recipeRepository.findById(id).isPresent()) {
             recipeRepository.deleteById(id);

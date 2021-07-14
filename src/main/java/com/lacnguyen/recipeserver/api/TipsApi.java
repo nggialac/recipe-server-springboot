@@ -56,7 +56,7 @@ public class TipsApi {
     }
 
     @GetMapping("/pagination")
-    public ResponseEntity<Map<String, Object>> getAllTips(@RequestParam(required = false) String name,
+    public ResponseEntity<Map<String, Object>> getTips_Pageable(@RequestParam(required = false) String name,
                                                             @RequestParam(value = "pageNumber") int pageNumber,
                                                             @RequestParam(value = "pageSize") int pageSize) {
         try {

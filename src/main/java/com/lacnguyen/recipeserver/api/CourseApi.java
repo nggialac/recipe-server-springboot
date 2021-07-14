@@ -45,12 +45,12 @@ public class CourseApi {
     }
 
     @PostMapping
-    public ResponseEntity<CourseEntity> createRecipeEntity(@RequestBody CourseEntity objCourse) {
+    public ResponseEntity<CourseEntity> createCourse(@RequestBody CourseEntity objCourse) {
         return new ResponseEntity<>(iCourseService.save(objCourse), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<CourseEntity> deleteRecipeEntity(@PathVariable("id") Long id) {
+    public ResponseEntity<CourseEntity> deleteCourse(@PathVariable("id") Long id) {
         //iCourseService.deleteByCourseId(id);
         Optional<CourseEntity> courseOptional = iCourseService.findByCourseId(id);
         return courseOptional.map(course -> {

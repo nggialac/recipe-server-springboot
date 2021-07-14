@@ -29,7 +29,8 @@ public class UserEntity {
     @Column(name = "username")
     private String userName;
 
-    @JsonIgnoreProperties(allowGetters = false, allowSetters = true)
+    //    @JsonIgnoreProperties(allowGetters = false, allowSetters = true)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "password")
     private String password;
 

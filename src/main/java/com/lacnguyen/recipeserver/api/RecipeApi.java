@@ -187,12 +187,12 @@ public class RecipeApi {
     ///////////////////////////////////////RECIPE-COURSE//////////
 
     @GetMapping("/{id}/course")
-    public List<CourseEntity> getAllCourse(@PathVariable(value = "id") Long id) {
+    public List<CourseEntity> getAllCourseByRecipeId(@PathVariable(value = "id") Long id) {
         return iCourseService.findAllCourse(id);
     }
 
     @GetMapping("/{id}/course/pagination")
-    public ResponseEntity<Map<String, Object>> getAllCourse(@PathVariable(value = "id") Long id,
+    public ResponseEntity<Map<String, Object>> getAllCoursePageableByRecipeId(@PathVariable(value = "id") Long id,
                                                             @RequestParam(value = "pageNumber") int pageNumber,
                                                             @RequestParam(value = "pageSize") int pageSize) {
         try {
@@ -217,7 +217,7 @@ public class RecipeApi {
 //    }
 
     @PostMapping("/{id}/course")
-    public CourseEntity createCourse(@PathVariable(value = "id") Long id,
+    public CourseEntity createCourseByRecipeId(@PathVariable(value = "id") Long id,
                                      @Validated @RequestBody CourseEntity course) {
         return iRecipeService.findByRecipeId(id).map(recipe -> {
             course.setRecipe(recipe);
@@ -226,7 +226,7 @@ public class RecipeApi {
     }
 
     @PutMapping("/{recipeId}/course/{courseId}")
-    public CourseEntity updateCourse(@PathVariable(value = "recipeId") Long recipeId,
+    public CourseEntity updateCourseByRecipeId(@PathVariable(value = "recipeId") Long recipeId,
                                      @PathVariable(value = "courseId") Long courseId,
                                      @Validated @RequestBody CourseEntity courseRequest) {
         if (!iRecipeService.isExistRecipe(recipeId)) {
@@ -242,7 +242,7 @@ public class RecipeApi {
     }
 
     @DeleteMapping("/{recipeId}/course/{courseId}")
-    public ResponseEntity<?> deleteCourse(@PathVariable(value = "recipeId") Long recipeId,
+    public ResponseEntity<?> deleteCourseByRecipeId(@PathVariable(value = "recipeId") Long recipeId,
                                           @PathVariable(value = "courseId") Long courseId) {
         return iCourseService.findByIdAndRecipeId(courseId, recipeId).map(course -> {
             iCourseService.deleteById(course);
@@ -259,7 +259,7 @@ public class RecipeApi {
     }
 
     @PostMapping("/{id}/ingredient")
-    public IngredientEntity createIngredient(@PathVariable(value = "id") Long id,
+    public IngredientEntity createIngredientByRecipeId(@PathVariable(value = "id") Long id,
                                              @Validated @RequestBody IngredientEntity ingredient) {
         return iRecipeService.findByRecipeId(id).map(recipe -> {
             ingredient.setRecipe(recipe);
@@ -269,7 +269,7 @@ public class RecipeApi {
 
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/{id}/ingredient/{ingredientId}", method = RequestMethod.PUT)
-    public IngredientEntity updateIngredient(@PathVariable(value = "id") Long recipeId,
+    public IngredientEntity updateIngredientByRecipeId(@PathVariable(value = "id") Long recipeId,
                                              @PathVariable(value = "ingredientId") Long ingredientId,
                                              @Validated @RequestBody IngredientEntity ingredientRequest) {
         if (!iRecipeService.isExistRecipe(recipeId)) {
@@ -285,7 +285,7 @@ public class RecipeApi {
     }
 
     @DeleteMapping("/{recipeId}/ingredient/{ingredientId}")
-    public ResponseEntity<?> deleteIngredient(@PathVariable(value = "recipeId") Long recipeId,
+    public ResponseEntity<?> deleteIngredientByRecipeId(@PathVariable(value = "recipeId") Long recipeId,
                                               @PathVariable(value = "ingredientId") Long ingredientId) {
         return iIngredientService.findByIdAndRecipeId(ingredientId, recipeId).map(ingre -> {
             iIngredientService.deleteIngredient(ingre);
@@ -296,29 +296,29 @@ public class RecipeApi {
 
     //////////////FOOD_CATEGORY/////////////
     @PostMapping("/create/fc")
-    public ResponseEntity<Object> createFc(@RequestBody RecipeEntity recipe) {
+    public ResponseEntity<Object> createRecipeWithFc(@RequestBody RecipeEntity recipe) {
         return iRecipeService.createRecipe_FC(recipe);
     }
 
     @GetMapping("/details/{id}/fc")
-    public RecipeEntity getFc(@PathVariable Long id) {
+    public RecipeEntity getRecipeWithFc(@PathVariable Long id) {
         if (recipeRepository.findById(id).isPresent())
             return recipeRepository.findById(id).get();
         else return null;
     }
 
     @GetMapping("/all/fc")
-    public List<RecipeEntity> getFc() {
+    public List<RecipeEntity> getAllRecipeWithFc() {
         return recipeRepository.findAll();
     }
 
     @PutMapping("/update/{id}/fc")
-    public ResponseEntity<Object> updateFc(@PathVariable Long id, @RequestBody RecipeEntity recipe) {
+    public ResponseEntity<Object> updateRecipeWithFc(@PathVariable Long id, @RequestBody RecipeEntity recipe) {
         return iRecipeService.updateRecipe_FC(recipe, id);
     }
 
     @DeleteMapping("/delete/{id}/fc")
-    public ResponseEntity<Object> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Object> deleteRecipeWithFc(@PathVariable Long id) {
         return iRecipeService.deleteRecipe_FC(id);
     }
 }
