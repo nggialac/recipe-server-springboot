@@ -2,6 +2,7 @@ package com.lacnguyen.recipeserver.api;
 
 import com.lacnguyen.recipeserver.models.EmailRequest;
 import com.lacnguyen.recipeserver.service.IMailService;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+@Api(value = "Mail APIs")
 @CrossOrigin
 @RequestMapping("/api/mail")
 @RestController
