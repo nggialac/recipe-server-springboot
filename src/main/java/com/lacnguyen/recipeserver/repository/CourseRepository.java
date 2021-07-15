@@ -33,4 +33,6 @@ public interface CourseRepository extends JpaRepository<CourseEntity, Long> {
 
     @Query("SELECT i FROM  CourseEntity i WHERE i.recipe.recipeId=:recipeId")
     Page<CourseEntity> findAllCourse(@Param("recipeId") Long recipeId, Pageable pageable);
+
+    Page<CourseEntity> findAllByOrderByCourseIdDesc(Pageable pageable);
 }

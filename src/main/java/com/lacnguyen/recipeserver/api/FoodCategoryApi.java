@@ -24,7 +24,7 @@ import java.util.Map;
 public class FoodCategoryApi {
 
     @Autowired
-    FoodCategoryRepository foodCategoryRepository;
+    FoodCategoryRepository ffoodCategoryRepository;
 
     @Autowired
     IFoodCategoryService iFoodCategoryService;
@@ -47,14 +47,14 @@ public class FoodCategoryApi {
 
     @GetMapping("/details/{id}/recipe")
     public FoodCategoryEntity getFC(@PathVariable Long id) {
-        if (foodCategoryRepository.findById(id).isPresent())
-            return foodCategoryRepository.findById(id).get();
+        if (ffoodCategoryRepository.findById(id).isPresent())
+            return ffoodCategoryRepository.findById(id).get();
         else return null;
     }
 
     @GetMapping("/all/recipe")
     public List<FoodCategoryEntity> getAllFc() {
-        return foodCategoryRepository.findAll();
+        return ffoodCategoryRepository.findAll();
     }
 
     @GetMapping("/all/recipe/pagination")

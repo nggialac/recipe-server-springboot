@@ -21,6 +21,8 @@ public interface IRecipeService {
 
     Page<RecipeEntity> findListRecipe_Paginate(int pageNumber, int pageSize);
 
+    Page<RecipeEntity> findListRecipe_Paginate_Desc(int pageNumber, int pageSize);
+
     Page<RecipeEntity> findByRecipeNameContains(String name, int pageNumber, int pageSize);
 
     void removeARecipe(Long id);

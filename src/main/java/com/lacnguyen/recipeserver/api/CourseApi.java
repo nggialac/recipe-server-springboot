@@ -37,6 +37,12 @@ public class CourseApi {
         return new ResponseEntity<>(iCourseService.findAll(pageNumber, pageSize), HttpStatus.OK);
     }
 
+    @GetMapping("/pagination/desc")
+    public ResponseEntity<Page<CourseEntity>> findListCourse_Desc(@RequestParam int pageNumber,
+                                                             @RequestParam int pageSize) {
+        return new ResponseEntity<>(iCourseService.findAll_Desc(pageNumber, pageSize), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<CourseEntity> findCourseById(@PathVariable("id") Long id) {
         Optional<CourseEntity> courseOptional = iCourseService.findByCourseId(id);

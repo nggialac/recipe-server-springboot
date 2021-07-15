@@ -56,23 +56,44 @@ public class RecipeApi {
 
     @GetMapping("/pagination")
     public ResponseEntity<Map<String, Object>> findListRecipe_Paginate(@RequestParam(required = false) String name,
-                                                                      @RequestParam int pageSize,
-                                                                      @RequestParam int pageNumber) {
-        try{
-        List<RecipeEntity> recipeList = new ArrayList<>();
-        Page<RecipeEntity> recipePage;
-        if (name == null)
-            recipePage = iRecipeService.findListRecipe_Paginate(pageNumber, pageSize);
-        else
-            recipePage = iRecipeService.findByRecipeNameContains(name, pageNumber, pageSize);
+                                                                       @RequestParam int pageSize,
+                                                                       @RequestParam int pageNumber) {
+        try {
+            List<RecipeEntity> recipeList = new ArrayList<>();
+            Page<RecipeEntity> recipePage;
+            if (name == null)
+                recipePage = iRecipeService.findListRecipe_Paginate(pageNumber, pageSize);
+            else
+                recipePage = iRecipeService.findByRecipeNameContains(name, pageNumber, pageSize);
 
-        recipeList = recipePage.getContent();
+            recipeList = recipePage.getContent();
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("recipes", recipeList);
-        response.put("currentPage", recipePage.getNumber());
-        response.put("totalItems", recipePage.getTotalElements());
-        response.put("totalPages", recipePage.getTotalPages());
+            Map<String, Object> response = new HashMap<>();
+            response.put("recipes", recipeList);
+            response.put("currentPage", recipePage.getNumber());
+            response.put("totalItems", recipePage.getTotalElements());
+            response.put("totalPages", recipePage.getTotalPages());
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/pagination/desc")
+    public ResponseEntity<Map<String, Object>> findListRecipe_Paginate_Desc(@RequestParam int pageSize,
+                                                                            @RequestParam int pageNumber) {
+        try {
+            List<RecipeEntity> recipeList = new ArrayList<>();
+            Page<RecipeEntity> recipePage;
+            recipePage = iRecipeService.findListRecipe_Paginate_Desc(pageNumber, pageSize);
+
+            recipeList = recipePage.getContent();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("recipes", recipeList);
+            response.put("currentPage", recipePage.getNumber());
+            response.put("totalItems", recipePage.getTotalElements());
+            response.put("totalPages", recipePage.getTotalPages());
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -193,8 +214,8 @@ public class RecipeApi {
 
     @GetMapping("/{id}/course/pagination")
     public ResponseEntity<Map<String, Object>> getAllCoursePageableByRecipeId(@PathVariable(value = "id") Long id,
-                                                            @RequestParam(value = "pageNumber") int pageNumber,
-                                                            @RequestParam(value = "pageSize") int pageSize) {
+                                                                              @RequestParam(value = "pageNumber") int pageNumber,
+                                                                              @RequestParam(value = "pageSize") int pageSize) {
         try {
             List<CourseEntity> courseList = new ArrayList<>();
             Page<CourseEntity> coursePage = iCourseService.findAllCourse(id, pageNumber, pageSize);
@@ -218,7 +239,7 @@ public class RecipeApi {
 
     @PostMapping("/{id}/course")
     public CourseEntity createCourseByRecipeId(@PathVariable(value = "id") Long id,
-                                     @Validated @RequestBody CourseEntity course) {
+                                               @Validated @RequestBody CourseEntity course) {
         return iRecipeService.findByRecipeId(id).map(recipe -> {
             course.setRecipe(recipe);
             return iCourseService.save(course);
@@ -227,8 +248,8 @@ public class RecipeApi {
 
     @PutMapping("/{recipeId}/course/{courseId}")
     public CourseEntity updateCourseByRecipeId(@PathVariable(value = "recipeId") Long recipeId,
-                                     @PathVariable(value = "courseId") Long courseId,
-                                     @Validated @RequestBody CourseEntity courseRequest) {
+                                               @PathVariable(value = "courseId") Long courseId,
+                                               @Validated @RequestBody CourseEntity courseRequest) {
         if (!iRecipeService.isExistRecipe(recipeId)) {
             throw new ResourceNotFoundException("Recipe ID " + recipeId + " not found");
         }
@@ -243,7 +264,7 @@ public class RecipeApi {
 
     @DeleteMapping("/{recipeId}/course/{courseId}")
     public ResponseEntity<?> deleteCourseByRecipeId(@PathVariable(value = "recipeId") Long recipeId,
-                                          @PathVariable(value = "courseId") Long courseId) {
+                                                    @PathVariable(value = "courseId") Long courseId) {
         return iCourseService.findByIdAndRecipeId(courseId, recipeId).map(course -> {
             iCourseService.deleteById(course);
             return ResponseEntity.ok().build();
@@ -260,7 +281,7 @@ public class RecipeApi {
 
     @PostMapping("/{id}/ingredient")
     public IngredientEntity createIngredientByRecipeId(@PathVariable(value = "id") Long id,
-                                             @Validated @RequestBody IngredientEntity ingredient) {
+                                                       @Validated @RequestBody IngredientEntity ingredient) {
         return iRecipeService.findByRecipeId(id).map(recipe -> {
             ingredient.setRecipe(recipe);
             return iIngredientService.save(ingredient);
@@ -270,8 +291,8 @@ public class RecipeApi {
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/{id}/ingredient/{ingredientId}", method = RequestMethod.PUT)
     public IngredientEntity updateIngredientByRecipeId(@PathVariable(value = "id") Long recipeId,
-                                             @PathVariable(value = "ingredientId") Long ingredientId,
-                                             @Validated @RequestBody IngredientEntity ingredientRequest) {
+                                                       @PathVariable(value = "ingredientId") Long ingredientId,
+                                                       @Validated @RequestBody IngredientEntity ingredientRequest) {
         if (!iRecipeService.isExistRecipe(recipeId)) {
             throw new ResourceNotFoundException("Recipe ID " + recipeId + " not found");
         }
@@ -286,7 +307,7 @@ public class RecipeApi {
 
     @DeleteMapping("/{recipeId}/ingredient/{ingredientId}")
     public ResponseEntity<?> deleteIngredientByRecipeId(@PathVariable(value = "recipeId") Long recipeId,
-                                              @PathVariable(value = "ingredientId") Long ingredientId) {
+                                                        @PathVariable(value = "ingredientId") Long ingredientId) {
         return iIngredientService.findByIdAndRecipeId(ingredientId, recipeId).map(ingre -> {
             iIngredientService.deleteIngredient(ingre);
             return ResponseEntity.ok().build();

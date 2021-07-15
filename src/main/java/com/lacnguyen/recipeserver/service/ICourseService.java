@@ -11,6 +11,7 @@ public interface ICourseService {
 
     List<CourseEntity> findAll();
     Page<CourseEntity> findAll(int pageNumber, int pageSize);
+    Page<CourseEntity> findAll_Desc(int pageNumber, int pageSize);
 
     List<CourseEntity> findAllCourse(Long id);
     Page<CourseEntity> findAllCourse(Long id, int pageNumber, int pageSize);

@@ -40,4 +40,6 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
 //    void deleteRelation(@Param("recipe_id") Long recipe_id);
     //    @Query("from User where email= :email")
 //   User  findByEmail(@Param("email") String email);
+
+    Page<RecipeEntity> findAllByOrderByRecipeIdDesc(Pageable pageable);
 }

@@ -51,6 +51,12 @@ public class RecipeService implements IRecipeService {
     }
 
     @Override
+    public Page<RecipeEntity> findListRecipe_Paginate_Desc(int pageNumber, int pageSize) {
+        Pageable page = PageRequest.of(pageNumber, pageSize);
+        return recipeRepository.findAllByOrderByRecipeIdDesc(page);
+    }
+
+    @Override
     public Page<RecipeEntity> findByRecipeNameContains(String name, int pageNumber, int pageSize) {
         Pageable page = PageRequest.of(pageNumber, pageSize);
         return recipeRepository.findByRecipeNameContains(name, page);

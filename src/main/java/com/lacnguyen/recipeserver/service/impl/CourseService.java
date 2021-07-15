@@ -25,6 +25,12 @@ public class CourseService implements ICourseService {
     }
 
     @Override
+    public Page<CourseEntity> findAll_Desc(int pageNumber, int pageSize) {
+        Pageable page = PageRequest.of(pageNumber, pageSize);
+        return courseRepository.findAllByOrderByCourseIdDesc(page);
+    }
+
+    @Override
     public Page<CourseEntity> findAll(int pageNumber, int pageSize) {
         Pageable page = PageRequest.of(pageNumber, pageSize);
         return courseRepository.findAll(page);
